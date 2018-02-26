@@ -131,6 +131,104 @@ public class UserServiceDefaultTest {
     }
 
     @Test
+    public void getFollowersOfUser_withValidUser_returnsFollowers() {
+        long id = 1L;
+
+        User follower = User.builder().id(2L).build();
+        HashSet<Long> followers = new HashSet<>();
+        followers.add(2L);
+
+        User user = User.builder().id(id).followers(followers).build();
+
+        HashSet<User> users = new HashSet<>();
+        users.add(user);
+        users.add(follower);
+
+        when(userDaoMock.find(id)).thenReturn(user);
+        when(userDaoMock.findAll()).thenReturn(users);
+
+        Either<ServerError, Collection<User>> result = service.getFollowersOfUser(id);
+
+        Collection<User> response = result.or(null);
+
+        assertTrue(EitherUtil.hasRight(result));
+        assertTrue(response.contains(follower));
+    }
+
+    @Test
+    public void getFollowersOfUser_withInvalidUser_returnsFollowers() {
+        long id = 1L;
+
+        User follower = User.builder().id(2L).build();
+        HashSet<Long> followers = new HashSet<>();
+        followers.add(2L);
+
+        User user = User.builder().id(id).followers(followers).build();
+
+        HashSet<User> users = new HashSet<>();
+        users.add(user);
+        users.add(follower);
+
+        when(userDaoMock.find(id)).thenReturn(null);
+        when(userDaoMock.findAll()).thenReturn(users);
+
+        Either<ServerError, Collection<User>> result = service.getFollowersOfUser(id);
+
+        Collection<User> response = result.or(null);
+
+        assertTrue(EitherUtil.hasLeft(result));
+    }
+
+    @Test
+    public void getFollowingsOfUser_withValidUser_returnsFollowings() {
+        long id = 1L;
+
+        User follower = User.builder().id(2L).build();
+        HashSet<Long> followings = new HashSet<>();
+        followings.add(2L);
+
+        User user = User.builder().id(id).following(followings).build();
+
+        HashSet<User> users = new HashSet<>();
+        users.add(user);
+        users.add(follower);
+
+        when(userDaoMock.find(id)).thenReturn(user);
+        when(userDaoMock.findAll()).thenReturn(users);
+
+        Either<ServerError, Collection<User>> result = service.getFollowingOfUser(id);
+
+        Collection<User> response = result.or(null);
+
+        assertTrue(EitherUtil.hasRight(result));
+        assertTrue(response.contains(follower));
+    }
+
+    @Test
+    public void getFollowingsOfUser_withInvalidUser_returnsFollowings() {
+        long id = 1L;
+
+        User follower = User.builder().id(2L).build();
+        HashSet<Long> following = new HashSet<>();
+        following.add(2L);
+
+        User user = User.builder().id(id).following(following).build();
+
+        HashSet<User> users = new HashSet<>();
+        users.add(user);
+        users.add(follower);
+
+        when(userDaoMock.find(id)).thenReturn(null);
+        when(userDaoMock.findAll()).thenReturn(users);
+
+        Either<ServerError, Collection<User>> result = service.getFollowingOfUser(id);
+
+        Collection<User> response = result.or(null);
+
+        assertTrue(EitherUtil.hasLeft(result));
+    }
+    
+    @Test
     public void getUser_withNullUser_shouldCallDao() {
         long id = 1;
         when(userDaoMock.find(id)).thenReturn(null);

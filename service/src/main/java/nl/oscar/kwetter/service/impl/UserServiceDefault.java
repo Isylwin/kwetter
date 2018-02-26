@@ -56,6 +56,20 @@ public class UserServiceDefault implements UserService {
     }
 
     @Override
+    public Either<ServerError, Collection<User>> getFollowersOfUser(long id) {
+        Either<ServerError, User> user = getUser(id);
+
+        return EitherUtil.collapse(user, u -> getUsers(u.getFollowers()));
+    }
+
+    @Override
+    public Either<ServerError, Collection<User>> getFollowingOfUser(long id) {
+        Either<ServerError, User> user = getUser(id);
+
+        return EitherUtil.collapse(user, u -> getUsers(u.getFollowing()));
+    }
+
+    @Override
     public Either<ServerError, User> getUser(Long id) {
         try {
             Maybe<User> userMaybe = Maybe.maybe(dao.find(id));
