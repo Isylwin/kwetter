@@ -1,8 +1,6 @@
 package nl.oscar.kwetter.service.kwetter;
 
 import nl.oscar.kwetter.domain.Kwetter;
-import nl.oscar.kwetter.domain.User;
-import nl.oscar.kwetter.service.TimeProvider;
 import nl.oscar.kwetter.service.kwetter.parsing.MentionParser;
 import nl.oscar.kwetter.service.kwetter.parsing.TopicParser;
 
@@ -15,11 +13,15 @@ public class KwetterBuilderDefault implements KwetterBuilder {
     private TopicParser topicParser;
     @Inject
     private MentionParser mentionParser;
-    @Inject
-    private TimeProvider timeProvider;
 
     @Override
-    public Kwetter buildKwetter(User user, String text, LocalDateTime time) {
-        return null;
+    public Kwetter buildKwetter(long author, String text, LocalDateTime time) {
+        Kwetter kwetter = Kwetter.builder()
+                .author(author)
+                .text(text)
+                .timestamp(time)
+                .build();
+
+        return kwetter;
     }
 }

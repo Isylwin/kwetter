@@ -1,8 +1,6 @@
 package nl.oscar.kwetter.domain;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.Singular;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +11,8 @@ import java.util.Collection;
 @Entity
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Kwetter {
     @Id
     @GeneratedValue
