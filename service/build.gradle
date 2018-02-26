@@ -1,0 +1,6 @@
+dependencies {
+    compile project(':domain')
+    compile project(':dao')
+
+    compile group: 'com.jnape.palatable', name: 'lambda', version: '2.1.1'
+}

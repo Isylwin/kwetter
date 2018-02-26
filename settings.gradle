@@ -1,0 +1,6 @@
+rootProject.name = 'kwetter'
+
+include ':service'
+include ':dao'
+include ':domain'
+include ':api'
