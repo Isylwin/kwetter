@@ -11,6 +11,8 @@ import nl.oscar.kwetter.service.UserService;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.util.Collection;
+import java.util.Objects;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 @Stateless
@@ -19,9 +21,13 @@ public class UserServiceDefault implements UserService {
     @Inject
     private UserDao dao;
 
-    /*private <R> Either<ServerError, R> executeDaoFunction() {
-        return
-    }*/
+    private <R> Either<ServerError, R> executeDaoFunction(Supplier<Either<ServerError, R>> fn) {
+        try {
+            return fn.get();
+        } catch (Exception e) {
+            return Either.left(new ServerError("Critical Server error occurred:" + e.getMessage()));
+        }
+    }
 
     @Override
     public Either<ServerError, Collection<User>> getAllUsers() {
@@ -71,17 +77,27 @@ public class UserServiceDefault implements UserService {
 
     @Override
     public Either<ServerError, User> getUser(Long id) {
-        try {
+        Supplier<Either<ServerError, User>> fn = () -> {
             Maybe<User> userMaybe = Maybe.maybe(dao.find(id));
 
             return Either.fromMaybe(
                     userMaybe,
                     () -> new ServerError("Cannot find user with id: " + id)
             );
-        } catch (Exception e) {
-            //Logger.log
-            return Either.left(new ServerError("Critical Server error encountered"));
-        }
+        };
+
+        return executeDaoFunction(fn);
+    }
+
+    @Override
+    public Either<ServerError, User> addUser(User user) {
+        Supplier<Either<ServerError, User>> fn = () -> {
+            Objects.requireNonNull(user);
+            dao.create(user);
+            return Either.right(user);
+        };
+
+        return executeDaoFunction(fn);
     }
 
     @Override

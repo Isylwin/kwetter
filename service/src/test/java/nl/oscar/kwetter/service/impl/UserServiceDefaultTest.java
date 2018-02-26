@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 public class UserServiceDefaultTest {
@@ -271,6 +271,25 @@ public class UserServiceDefaultTest {
         when(userDaoMock.find(id)).thenThrow(new RuntimeException());
 
         Either<ServerError, User> result = service.getUser(id);
+
+        assertTrue(EitherUtil.hasLeft(result));
+    }
+
+    @Test
+    public void addUser_withValidUser_returnsUser() {
+        User user = User.builder().name("Henk").bio("Ik ben Henk.").build();
+
+        Either<ServerError, User> result = service.addUser(user);
+
+        User response = result.or(null);
+
+        verify(userDaoMock).create(user);
+        assertThat(response, is(user));
+    }
+
+    @Test
+    public void addUser_withNullUser_returnsServiceError() {
+        Either<ServerError, User> result = service.addUser(null);
 
         assertTrue(EitherUtil.hasLeft(result));
     }
