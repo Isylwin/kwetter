@@ -18,15 +18,15 @@ public class Kwetter {
     @GeneratedValue
     private long id;
 
-    private User author;
+    private long author;
 
     private LocalDateTime timestamp;
 
     private String text;
     @Singular
-    private Collection<User> mentions;
+    private Collection<Long> mentions;
     @Singular
-    private Collection<Topic> topics;
+    private Collection<String> topics;
     @Singular
-    private Collection<User> likes;
+    private Collection<Long> likes;
 }
