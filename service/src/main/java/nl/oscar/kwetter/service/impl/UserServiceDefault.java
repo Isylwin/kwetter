@@ -14,7 +14,6 @@ import javax.inject.Inject;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 @Stateless
 public class UserServiceDefault implements UserService {
@@ -48,11 +47,7 @@ public class UserServiceDefault implements UserService {
     @Override
     public Either<ServerError, Collection<User>> getUsers(Collection<Long> ids) {
         try {
-            Maybe<Collection<User>> usersMaybe = Maybe.maybe(
-                    dao.findAll()
-                            .stream()
-                            .filter(u -> ids.contains(u.getId()))
-                            .collect(Collectors.toSet()));
+            Maybe<Collection<User>> usersMaybe = Maybe.maybe(dao.findUsersById(ids));
 
             return Either.fromMaybe(usersMaybe,
                     () -> new ServerError("Cannot find any users"));

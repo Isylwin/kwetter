@@ -79,11 +79,13 @@ public class UserServiceDefaultTest {
 
     @Test
     public void getUsers_withEmptyCollection_shouldCallDao() {
-        when(userDaoMock.findAll()).thenReturn(new ArrayList<>());
+        Collection<Long> ids = new ArrayList<>();
+
+        when(userDaoMock.findUsersById(ids)).thenReturn(new ArrayList<>());
 
         service.getUsers(new ArrayList<>());
 
-        verify(userDaoMock).findAll();
+        verify(userDaoMock).findUsersById(ids);
     }
 
     @Test
@@ -107,7 +109,7 @@ public class UserServiceDefaultTest {
         users.add(user1);
         users.add(user2);
 
-        when(userDaoMock.findAll()).thenReturn(users);
+        when(userDaoMock.findUsersById(ids)).thenReturn(users);
 
         Either<ServerError, Collection<User>> result = service.getUsers(ids);
 
@@ -115,13 +117,13 @@ public class UserServiceDefaultTest {
 
         assertTrue(EitherUtil.hasRight(result));
         assertTrue(response.contains(user1));
-        assertFalse(response.contains(user2));
+        assertTrue(response.contains(user2));
     }
 
     @Test
     public void getUsers_withException_returnsServerError() {
         Collection<Long> ids = new HashSet<>();
-        when(userDaoMock.findAll()).thenThrow(new IllegalArgumentException());
+        when(userDaoMock.findUsersById(ids)).thenThrow(new IllegalArgumentException());
 
         Either<ServerError, Collection<User>> result = service.getUsers(ids);
 
@@ -131,7 +133,7 @@ public class UserServiceDefaultTest {
     @Test
     public void getUsers_withNullCollection_returnsServerError() {
         Collection<Long> ids = new HashSet<>();
-        when(userDaoMock.findAll()).thenReturn(null);
+        when(userDaoMock.findUsersById(ids)).thenReturn(null);
 
         Either<ServerError, Collection<User>> result = service.getUsers(ids);
 
@@ -153,7 +155,7 @@ public class UserServiceDefaultTest {
         users.add(follower);
 
         when(userDaoMock.find(id)).thenReturn(user);
-        when(userDaoMock.findAll()).thenReturn(users);
+        when(userDaoMock.findUsersById(followers)).thenReturn(users);
 
         Either<ServerError, Collection<User>> result = service.getFollowersOfUser(id);
 
@@ -202,7 +204,7 @@ public class UserServiceDefaultTest {
         users.add(follower);
 
         when(userDaoMock.find(id)).thenReturn(user);
-        when(userDaoMock.findAll()).thenReturn(users);
+        when(userDaoMock.findUsersById(followings)).thenReturn(users);
 
         Either<ServerError, Collection<User>> result = service.getFollowingOfUser(id);
 

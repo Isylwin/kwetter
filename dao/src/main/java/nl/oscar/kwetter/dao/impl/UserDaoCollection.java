@@ -7,6 +7,7 @@ import javax.ejb.Singleton;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Singleton
 public class UserDaoCollection implements UserDao {
@@ -33,6 +34,14 @@ public class UserDaoCollection implements UserDao {
     @Override
     public Collection<User> findAll() {
         return users.values();
+    }
+
+    @Override
+    public Collection<User> findUsersById(Collection<Long> ids) {
+        return users.values()
+                .stream()
+                .filter(x -> ids.contains(x.getId()))
+                .collect(Collectors.toSet());
     }
 
     @Override
