@@ -9,6 +9,8 @@ public interface UserService {
 
     Either<ServerError, Collection<User>> getAllUsers();
 
+    Either<ServerError, Collection<User>> getUsers(Collection<Long> ids);
+
     Either<ServerError, User> getUser(Long id);
 
     Either<ServerError, User> followUser(long follower, long followee);

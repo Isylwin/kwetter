@@ -13,6 +13,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -64,6 +65,67 @@ public class UserServiceDefaultTest {
         when(userDaoMock.findAll()).thenReturn(null);
 
         Either<ServerError, Collection<User>> result = service.getAllUsers();
+
+        assertTrue(EitherUtil.hasLeft(result));
+    }
+
+    @Test
+    public void getUsers_withEmptyCollection_shouldCallDao() {
+        when(userDaoMock.findAll()).thenReturn(new ArrayList<>());
+
+        service.getUsers(new ArrayList<>());
+
+        verify(userDaoMock).findAll();
+    }
+
+    @Test
+    public void getUsers_withEmptyCollection_returnUsers() {
+        Collection<Long> ids = new HashSet<>();
+        when(userDaoMock.findAll()).thenReturn(new ArrayList<>());
+
+        Either<ServerError, Collection<User>> result = service.getUsers(ids);
+
+        assertTrue(EitherUtil.hasRight(result));
+    }
+
+    @Test
+    public void getUsers_withFilledCollection_returnUsers() {
+        Collection<Long> ids = new HashSet<>();
+        Collection<User> users = new HashSet<>();
+        User user1 = User.builder().id(1L).build();
+        User user2 = User.builder().id(2L).build();
+
+        ids.add(1L);
+        users.add(user1);
+        users.add(user2);
+
+        when(userDaoMock.findAll()).thenReturn(users);
+
+        Either<ServerError, Collection<User>> result = service.getUsers(ids);
+
+        Collection<User> response = result.or(null);
+
+        assertTrue(EitherUtil.hasRight(result));
+        assertTrue(response.contains(user1));
+        assertFalse(response.contains(user2));
+    }
+
+    @Test
+    public void getUsers_withException_returnsServerError() {
+        Collection<Long> ids = new HashSet<>();
+        when(userDaoMock.findAll()).thenThrow(new IllegalArgumentException());
+
+        Either<ServerError, Collection<User>> result = service.getUsers(ids);
+
+        assertTrue(EitherUtil.hasLeft(result));
+    }
+
+    @Test
+    public void getUsers_withNullCollection_returnsServerError() {
+        Collection<Long> ids = new HashSet<>();
+        when(userDaoMock.findAll()).thenReturn(null);
+
+        Either<ServerError, Collection<User>> result = service.getUsers(ids);
 
         assertTrue(EitherUtil.hasLeft(result));
     }
