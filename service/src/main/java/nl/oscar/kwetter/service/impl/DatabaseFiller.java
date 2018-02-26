@@ -1,48 +1,52 @@
 package nl.oscar.kwetter.service.impl;
 
-import nl.oscar.kwetter.dao.UserDao;
 import nl.oscar.kwetter.domain.User;
+import nl.oscar.kwetter.domain.UserInformation;
+import nl.oscar.kwetter.service.UserService;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
-import java.util.Arrays;
-import java.util.HashSet;
 
 @Singleton
 @Startup
 public class DatabaseFiller {
 
     @Inject
-    UserDao dao;
+    UserService service;
 
     @PostConstruct
     public void init() {
-        User user1 = User.builder().id(1L).name("Henk").followers(new HashSet<>(Arrays.asList(8L, 10L))).build();
-        User user2 = User.builder().id(2L).name("Piet").build();
-        User user3 = User.builder().id(3L).name("Gert").build();
-        User user4 = User.builder().id(4L).name("Jan").build();
-        User user5 = User.builder().id(5L).name("Kim").build();
-        User user6 = User.builder().id(6L).name("Harry").build();
-        User user7 = User.builder().id(7L).name("Simon").build();
-        User user8 = User.builder().id(8L).name("Fred").following(new HashSet<>(Arrays.asList(1L))).build();
-        User user9 = User.builder().id(9L).name("Manon").build();
-        User user12 = User.builder().id(10L).name("Riem").following(new HashSet<>(Arrays.asList(1L))).build();
-        User user11 = User.builder().id(11L).name("Yolanda").build();
-        User user10 = User.builder().id(12L).name("Quentin").build();
+        User user1 = User.builder().information(UserInformation.builder().name("Henk").build()).build();
+        User user2 = User.builder().information(UserInformation.builder().name("Piet").build()).build();
+        User user3 = User.builder().information(UserInformation.builder().name("Gert").build()).build();
+        User user4 = User.builder().information(UserInformation.builder().name("Jan").build()).build();
+        User user5 = User.builder().information(UserInformation.builder().name("Kim").build()).build();
+        User user6 = User.builder().information(UserInformation.builder().name("Harry").build()).build();
+        User user7 = User.builder().information(UserInformation.builder().name("Simon").build()).build();
+        User user8 = User.builder().information(UserInformation.builder().name("Fred").build()).build();
+        User user9 = User.builder().information(UserInformation.builder().name("Manon").build()).build();
+        User user12 = User.builder().information(UserInformation.builder().name("Riem").build()).build();
+        User user11 = User.builder().information(UserInformation.builder().name("Yolanda").build()).build();
+        User user10 = User.builder().information(UserInformation.builder().name("Quentin").build()).build();
 
-        dao.create(user1);
-        dao.create(user2);
-        dao.create(user3);
-        dao.create(user4);
-        dao.create(user5);
-        dao.create(user6);
-        dao.create(user7);
-        dao.create(user8);
-        dao.create(user9);
-        dao.create(user10);
-        dao.create(user11);
-        dao.create(user12);
+        service.addUser(user1);
+        service.addUser(user2);
+        service.addUser(user3);
+        service.addUser(user4);
+        service.addUser(user5);
+        service.addUser(user6);
+        service.addUser(user7);
+        service.addUser(user8);
+        service.addUser(user9);
+        service.addUser(user10);
+        service.addUser(user11);
+        service.addUser(user12);
+
+        service.followUser(user1.getId(), user7.getId());
+        service.followUser(user1.getId(), user9.getId());
+        service.followUser(user1.getId(), user10.getId());
+        service.followUser(user10.getId(), user1.getId());
     }
 }

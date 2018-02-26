@@ -3,6 +3,7 @@ package nl.oscar.kwetter.service.impl;
 import com.jnape.palatable.lambda.adt.Either;
 import nl.oscar.kwetter.dao.UserDao;
 import nl.oscar.kwetter.domain.User;
+import nl.oscar.kwetter.domain.UserInformation;
 import nl.oscar.kwetter.service.EitherUtil;
 import nl.oscar.kwetter.service.ServerError;
 import org.junit.Before;
@@ -277,7 +278,7 @@ public class UserServiceDefaultTest {
 
     @Test
     public void addUser_withValidUser_returnsUser() {
-        User user = User.builder().name("Henk").bio("Ik ben Henk.").build();
+        User user = User.builder().information(UserInformation.builder().name("Henk").bio("Ik ben Henk.").build()).build();
 
         Either<ServerError, User> result = service.addUser(user);
 

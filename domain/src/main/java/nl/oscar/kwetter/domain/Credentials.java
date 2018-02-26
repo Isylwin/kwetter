@@ -1,21 +1,20 @@
 package nl.oscar.kwetter.domain;
 
-import lombok.Builder;
 import lombok.Data;
-import lombok.Singular;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
+import javax.persistence.Embeddable;
 import javax.persistence.Id;
 import java.util.Collection;
 
-@Entity
+@Embeddable
 @Data
-@Builder
+@NoArgsConstructor
 public class Credentials {
     @Id
     private String username;
 
     private String password;
-    @Singular
+
     private Collection<Role> roles;
 }

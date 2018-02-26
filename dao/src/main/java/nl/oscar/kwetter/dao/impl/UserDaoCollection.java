@@ -12,15 +12,17 @@ import java.util.Map;
 public class UserDaoCollection implements UserDao {
 
     private Map<Long, User> users = new HashMap<>();
+    private static long id = 0;
 
     @Override
     public void create(User object) {
+        object.setId(id++);
         users.put(object.getId(), object);
     }
 
     @Override
     public void edit(User object) {
-        create(object);
+        users.put(object.getId(), object);
     }
 
     @Override
@@ -42,7 +44,7 @@ public class UserDaoCollection implements UserDao {
     public User findUser(String name) {
         return users.values()
                 .stream()
-                .filter(x -> x.getName().equals(name))
+                .filter(x -> x.getInformation().getName().equals(name))
                 .findAny()
                 .orElse(null);
     }
