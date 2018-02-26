@@ -4,6 +4,7 @@ import com.jnape.palatable.lambda.adt.Either;
 import com.jnape.palatable.lambda.adt.Maybe;
 import nl.oscar.kwetter.dao.UserDao;
 import nl.oscar.kwetter.domain.User;
+import nl.oscar.kwetter.domain.UserInformation;
 import nl.oscar.kwetter.service.EitherUtil;
 import nl.oscar.kwetter.service.ServerError;
 import nl.oscar.kwetter.service.UserService;
@@ -84,6 +85,18 @@ public class UserServiceDefault implements UserService {
                     userMaybe,
                     () -> new ServerError("Cannot find user with id: " + id)
             );
+        };
+
+        return executeDaoFunction(fn);
+    }
+
+    @Override
+    public Either<ServerError, User> updateUserInfo(long id, UserInformation info) {
+        Supplier<Either<ServerError, User>> fn = () -> {
+            Objects.requireNonNull(info);
+            Either<ServerError, User> temp = getUser(id);
+            temp.peek(u -> u.setInformation(info));
+            return temp;
         };
 
         return executeDaoFunction(fn);

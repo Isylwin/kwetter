@@ -3,6 +3,7 @@ package nl.oscar.kwetter.api.rest;
 import com.jnape.palatable.lambda.adt.Either;
 import nl.oscar.kwetter.api.ResponseUtility;
 import nl.oscar.kwetter.domain.User;
+import nl.oscar.kwetter.domain.UserInformation;
 import nl.oscar.kwetter.service.ServerError;
 import nl.oscar.kwetter.service.UserService;
 
@@ -29,6 +30,15 @@ public class RestUserController {
         return ResponseUtility.getResponseFromEither(optUsers);
     }
 
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addUser(User user) {
+        Either<ServerError, User> optUser = service.addUser(user);
+
+        return ResponseUtility.getResponseFromEither(optUser);
+    }
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
@@ -38,11 +48,12 @@ public class RestUserController {
         return ResponseUtility.getResponseFromEither(optUser);
     }
 
-    @POST
+    @PATCH
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response addUser(User user) {
-        Either<ServerError, User> optUser = service.addUser(user);
+    @Path("/{id}")
+    public Response editUserInfo(@PathParam("id") long id, UserInformation information) {
+        Either<ServerError, User> optUser = service.updateUserInfo(id, information);
 
         return ResponseUtility.getResponseFromEither(optUser);
     }

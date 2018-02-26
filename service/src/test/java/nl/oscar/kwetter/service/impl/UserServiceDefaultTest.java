@@ -277,6 +277,35 @@ public class UserServiceDefaultTest {
     }
 
     @Test
+    public void editUserInfo_withValidInfo_returnsUser() {
+        UserInformation newInfo = UserInformation.builder().name("GEHEHE").build();
+        User user = User.builder().id(1L).build();
+
+        when(userDaoMock.find(1L)).thenReturn(user);
+
+        Either<ServerError, User> result = service.updateUserInfo(1, newInfo);
+
+        User response = result.or(null);
+
+        assertTrue(EitherUtil.hasRight(result));
+        assertEquals(response.getInformation(), newInfo);
+    }
+
+    @Test
+    public void editUserInfo_withNullInfo_returnsServerError() {
+        Either<ServerError, User> result = service.updateUserInfo(1, null);
+
+        assertTrue(EitherUtil.hasLeft(result));
+    }
+
+    @Test
+    public void editUserInfo_withInvalidUser_returnsServerError() {
+        Either<ServerError, User> result = service.updateUserInfo(1, UserInformation.builder().build());
+
+        assertTrue(EitherUtil.hasLeft(result));
+    }
+
+    @Test
     public void addUser_withValidUser_returnsUser() {
         User user = User.builder().information(UserInformation.builder().name("Henk").bio("Ik ben Henk.").build()).build();
 
