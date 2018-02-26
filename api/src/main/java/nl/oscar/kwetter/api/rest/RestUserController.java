@@ -25,46 +25,21 @@ public class RestUserController {
         return Response.ok(service.getAllUsers()).build();
     }
 
-    /*@GET
-    @Path("/name/{name}")
-    public Response getUser(@PathParam("name") String name) {
-        Optional<User> optUser = service.getUser(name);
-
-        if(optUser.isPresent()) {
-            User user = optUser.get();
-            return Response.ok(user).build();
-        } else {
-            return Response.status(Response.Status.NOT_FOUND)
-                    .entity("\"error\":\"No user with the name " + name + " could be found.\"")
-                    .build();
-        }
-    }*/
-
     @GET
     @Path("/{id}")
     public Response getUser(@PathParam("id") long id) {
         Either<ServerError, User> optUser = service.getUser(id);
 
         return ResponseUtility.getResponseFromEither(optUser);
-
-        /*if(optUser.isPresent()) {
-            User user = optUser.get();
-            return Response.ok(user).build();
-        } else {
-            return Response.status(Response.Status.NOT_FOUND)
-                    .entity("\"error\":\"No user with the id " + id + " could be found.\"")
-                    .build();
-        }*/
     }
+
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/{id}/follow")
+    @Path("/{id}/followers")
     public Response followUser(@PathParam("id") Long follower, @QueryParam("followee") Long followee) {
         Either<ServerError, User> result = service.followUser(follower, followee);
 
         return ResponseUtility.getResponseFromEither(result);
     }
-
-
 }
