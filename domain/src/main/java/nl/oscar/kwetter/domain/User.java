@@ -39,6 +39,12 @@ public class User {
     @Singular
     private Collection<Kwetter> kwetters;
 
+    public User() {
+        following = new HashSet<>();
+        followers = new HashSet<>();
+        kwetters = new HashSet<>();
+    }
+
     public void beFollowed(long follower) {
         followers.add(follower);
     }

@@ -38,6 +38,15 @@ public class RestUserController {
         return ResponseUtility.getResponseFromEither(optUser);
     }
 
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addUser(User user) {
+        Either<ServerError, User> optUser = service.addUser(user);
+
+        return ResponseUtility.getResponseFromEither(optUser);
+    }
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}/followers")
