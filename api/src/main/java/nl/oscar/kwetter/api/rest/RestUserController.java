@@ -4,8 +4,8 @@ import com.jnape.palatable.lambda.adt.Either;
 import nl.oscar.kwetter.api.ResponseUtility;
 import nl.oscar.kwetter.domain.User;
 import nl.oscar.kwetter.domain.UserInformation;
-import nl.oscar.kwetter.service.ServerError;
-import nl.oscar.kwetter.service.UserService;
+import nl.oscar.kwetter.service.error.ServerError;
+import nl.oscar.kwetter.service.user.UserService;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;

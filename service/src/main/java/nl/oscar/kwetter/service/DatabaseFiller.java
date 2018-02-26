@@ -1,8 +1,8 @@
-package nl.oscar.kwetter.service.impl;
+package nl.oscar.kwetter.service;
 
 import nl.oscar.kwetter.domain.User;
 import nl.oscar.kwetter.domain.UserInformation;
-import nl.oscar.kwetter.service.UserService;
+import nl.oscar.kwetter.service.user.UserService;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;

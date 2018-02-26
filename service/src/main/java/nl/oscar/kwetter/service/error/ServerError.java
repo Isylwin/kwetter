@@ -1,4 +1,4 @@
-package nl.oscar.kwetter.service;
+package nl.oscar.kwetter.service.error;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

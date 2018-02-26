@@ -1,4 +1,4 @@
-package nl.oscar.kwetter.service;
+package nl.oscar.kwetter.service.util;
 
 import com.jnape.palatable.lambda.adt.Either;
 

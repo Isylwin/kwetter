@@ -1,8 +1,9 @@
-package nl.oscar.kwetter.service;
+package nl.oscar.kwetter.service.user;
 
 import com.jnape.palatable.lambda.adt.Either;
 import nl.oscar.kwetter.domain.User;
 import nl.oscar.kwetter.domain.UserInformation;
+import nl.oscar.kwetter.service.error.ServerError;
 
 import java.util.Collection;
 
