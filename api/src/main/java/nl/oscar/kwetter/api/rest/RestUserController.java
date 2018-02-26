@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Collection;
 
 @Stateless
 @Produces({MediaType.APPLICATION_JSON})
@@ -21,11 +22,15 @@ public class RestUserController {
     private UserService service;
 
     @GET
+    @Produces(MediaType.APPLICATION_JSON)
     public Response getAllUsers() {
-        return Response.ok(service.getAllUsers()).build();
+        Either<ServerError, Collection<User>> optUsers = service.getAllUsers();
+
+        return ResponseUtility.getResponseFromEither(optUsers);
     }
 
     @GET
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
     public Response getUser(@PathParam("id") long id) {
         Either<ServerError, User> optUser = service.getUser(id);
@@ -33,6 +38,23 @@ public class RestUserController {
         return ResponseUtility.getResponseFromEither(optUser);
     }
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{id}/followers")
+    public Response getFollowers(@PathParam("id") long id) {
+        Either<ServerError, Collection<User>> optUsers = service.getFollowersOfUser(id);
+
+        return ResponseUtility.getResponseFromEither(optUsers);
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{id}/following")
+    public Response getFollowing(@PathParam("id") long id) {
+        Either<ServerError, Collection<User>> optUsers = service.getFollowingOfUser(id);
+
+        return ResponseUtility.getResponseFromEither(optUsers);
+    }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)

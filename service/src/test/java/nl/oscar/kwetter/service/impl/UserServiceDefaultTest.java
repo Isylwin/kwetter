@@ -43,12 +43,19 @@ public class UserServiceDefaultTest {
     }
 
     @Test
-    public void getAllUsers_withEmptyCollection_returnUsers() {
-        when(userDaoMock.findAll()).thenReturn(new ArrayList<>());
+    public void getAllUsers_withCollection_returnUsers() {
+        HashSet<User> users = new HashSet<>();
+        users.add(User.builder().id(1L).build());
+        users.add(User.builder().id(2L).build());
+
+        when(userDaoMock.findAll()).thenReturn(users);
 
         Either<ServerError, Collection<User>> result = service.getAllUsers();
 
+        Collection<User> response = result.or(null);
+
         assertTrue(EitherUtil.hasRight(result));
+        assertTrue(response.size() == 2);
     }
 
     @Test
