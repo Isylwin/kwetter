@@ -17,6 +17,7 @@ import java.util.Collection;
 import java.util.HashSet;
 
 import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
@@ -110,10 +111,7 @@ public class KwetterBuilderDefaultTest {
 
         Kwetter result = builder.buildKwetter(author, text, time);
 
-        String expected = Arrays.toString(mentions.toArray());
-        String actual = Arrays.toString(result.getMentions().toArray());
-
-        assertThat(actual, is(expected));
+        assertThat(result.getMentions(), containsInAnyOrder(mentions.toArray()));
     }
 
     @Test
@@ -130,10 +128,7 @@ public class KwetterBuilderDefaultTest {
 
         Kwetter result = builder.buildKwetter(author, text, time);
 
-        String expected = Arrays.toString(fake.toArray());
-        String actual = Arrays.toString(result.getMentions().toArray());
-
-        assertThat(actual, is(not(expected)));
+        assertThat(result.getMentions(), not(containsInAnyOrder(fake.toArray())));
     }
 
     @Test
