@@ -6,7 +6,9 @@ import java.util.Collection;
 
 public interface UserDao extends Dao<Long, User> {
 
-    User findUser(String name);
+    User findUserByName(String name);
+
+    Collection<User> findUsersByName(Collection<String> names);
 
     Collection<User> findUsersById(Collection<Long> ids);
 

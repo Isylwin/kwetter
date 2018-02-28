@@ -50,11 +50,19 @@ public class UserDaoCollection implements UserDao {
     }
 
     @Override
-    public User findUser(String name) {
+    public User findUserByName(String name) {
         return users.values()
                 .stream()
                 .filter(x -> x.getInformation().getName().equals(name))
                 .findAny()
                 .orElse(null);
+    }
+
+    @Override
+    public Collection<User> findUsersByName(Collection<String> names) {
+        return users.values()
+                .stream()
+                .filter(x -> names.contains(x.getCredentials().getUsername()))
+                .collect(Collectors.toSet());
     }
 }
