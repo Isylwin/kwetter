@@ -59,7 +59,7 @@ public class UserDaoCollection implements UserDao {
     }
 
     @Override
-    public Collection<User> findUsersByName(Collection<String> names) {
+    public Collection<User> findUsersByUsername(Collection<String> names) {
         return users.values()
                 .stream()
                 .filter(x -> names.contains(x.getCredentials().getUsername()))

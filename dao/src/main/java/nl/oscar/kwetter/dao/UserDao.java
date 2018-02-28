@@ -8,7 +8,7 @@ public interface UserDao extends Dao<Long, User> {
 
     User findUserByName(String name);
 
-    Collection<User> findUsersByName(Collection<String> names);
+    Collection<User> findUsersByUsername(Collection<String> names);
 
     Collection<User> findUsersById(Collection<Long> ids);
 
