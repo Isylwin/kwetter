@@ -1,7 +1,6 @@
 package nl.oscar.kwetter.service.kwetter.parsing;
 
 import nl.oscar.kwetter.dao.UserDao;
-import nl.oscar.kwetter.domain.User;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -11,7 +10,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 @Stateless
 public class MentionParserDefault implements MentionParser {
@@ -19,7 +17,7 @@ public class MentionParserDefault implements MentionParser {
     private UserDao userDao;
 
     @Override
-    public Collection<Long> parse(String text) {
+    public Collection<String> parse(String text) {
         Objects.requireNonNull(text, "Text cannot be null");
 
         Pattern MY_PATTERN = Pattern.compile("@(\\w+)");
@@ -31,9 +29,6 @@ public class MentionParserDefault implements MentionParser {
             strs.add(mat.group(1));
         }
 
-        return userDao.findUsersByUsername(strs)
-                .stream()
-                .map(User::getId)
-                .collect(Collectors.toSet());
+        return strs;
     }
 }

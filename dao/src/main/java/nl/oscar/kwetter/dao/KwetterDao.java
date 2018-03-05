@@ -9,4 +9,6 @@ public interface KwetterDao extends Dao<Long, Kwetter> {
     Collection<Kwetter> findWithAuthor(long author);
 
     Collection<Kwetter> findWithMention(long mention);
+
+    Collection<Kwetter> findWithTopic(String topic);
 }

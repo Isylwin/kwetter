@@ -4,5 +4,5 @@ import java.util.Collection;
 
 public interface MentionParser {
 
-    Collection<Long> parse(String text);
+    Collection<String> parse(String text);
 }

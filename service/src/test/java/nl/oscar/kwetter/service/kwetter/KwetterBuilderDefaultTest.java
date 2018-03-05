@@ -1,6 +1,9 @@
 package nl.oscar.kwetter.service.kwetter;
 
+import nl.oscar.kwetter.dao.UserDao;
+import nl.oscar.kwetter.domain.Credentials;
 import nl.oscar.kwetter.domain.Kwetter;
+import nl.oscar.kwetter.domain.User;
 import nl.oscar.kwetter.service.kwetter.builder.KwetterBuilderDefault;
 import nl.oscar.kwetter.service.kwetter.parsing.MentionParser;
 import nl.oscar.kwetter.service.kwetter.parsing.TopicParser;
@@ -32,6 +35,9 @@ public class KwetterBuilderDefaultTest {
     @Mock
     private MentionParser mentionParser;
 
+    @Mock
+    private UserDao dao;
+
     @InjectMocks
     private KwetterBuilderDefault builder = new KwetterBuilderDefault();
 
@@ -61,14 +67,17 @@ public class KwetterBuilderDefaultTest {
         long author = 1L;
         String text = "Hallo @Henk";
         LocalDateTime time = LocalDateTime.MIN;
-        Collection<Long> mentions = new HashSet<>();
-        mentions.add(2L);
+        Collection<String> mentions = new HashSet<>();
+        mentions.add("Henk");
+        Collection<Long> users = new HashSet<>();
+        users.add(2L);
 
         when(mentionParser.parse(text)).thenReturn(mentions);
+        when(dao.findUsersByUsername(mentions)).thenReturn(new HashSet<>(Arrays.asList(User.builder().id(2L).credentials(Credentials.builder().username("Henk").build()).build())));
 
         Kwetter result = builder.buildKwetter(author, text, time);
 
-        assertThat(result.getMentions(), containsInAnyOrder(mentions.toArray()));
+        assertThat(result.getMentions(), containsInAnyOrder(users.toArray()));
     }
 
     @Test
@@ -76,10 +85,10 @@ public class KwetterBuilderDefaultTest {
         long author = 1L;
         String text = "Hallo @Henk";
         LocalDateTime time = LocalDateTime.MIN;
-        Collection<Long> mentions = new HashSet<>();
-        mentions.add(2L);
-        Collection<Long> fake = new HashSet<>();
-        fake.add(5L);
+        Collection<String> mentions = new HashSet<>();
+        mentions.add("Henk");
+        Collection<String> fake = new HashSet<>();
+        fake.add("Piet");
 
         when(mentionParser.parse(text)).thenReturn(mentions);
 

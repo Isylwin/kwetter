@@ -53,4 +53,12 @@ public class RestKwetterController {
 
         return ResponseUtility.getResponseFromEither(result);
     }
+
+    @GET
+    @Path("/topic/{topic_id : .+}")
+    public Response getKwettersWithTopic(@PathParam("topic_id") String topic) {
+        Either<ServerError, Collection<Kwetter>> result = service.getKwettersWithTopic(topic);
+
+        return ResponseUtility.getResponseFromEither(result);
+    }
 }

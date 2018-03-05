@@ -54,4 +54,11 @@ public class KwetterDaoCollection implements KwetterDao {
                 .filter(k -> k.getMentions().contains(mention))
                 .collect(Collectors.toSet());
     }
+
+    @Override
+    public Collection<Kwetter> findWithTopic(String topic) {
+        return findAll().stream()
+                .filter(k -> k.getTopics().contains(topic))
+                .collect(Collectors.toSet());
+    }
 }

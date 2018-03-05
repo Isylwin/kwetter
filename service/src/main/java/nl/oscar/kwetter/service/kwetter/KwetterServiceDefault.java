@@ -77,4 +77,11 @@ public class KwetterServiceDefault implements KwetterService {
 
         return execute(fn);
     }
+
+    @Override
+    public Either<ServerError, Collection<Kwetter>> getKwettersWithTopic(String topic) {
+        Supplier<Collection<Kwetter>> fn = () -> dao.findWithTopic(topic);
+
+        return execute(fn);
+    }
 }
