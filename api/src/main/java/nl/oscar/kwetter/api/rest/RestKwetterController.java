@@ -38,5 +38,11 @@ public class RestKwetterController {
         return ResponseUtility.getResponseFromEither(result);
     }
 
+    @GET
+    @Path("/{id}")
+    public Response getKwetter(@PathParam("id") long id) {
+        Either<ServerError, Kwetter> result = service.getKwetter(id);
 
+        return ResponseUtility.getResponseFromEither(result);
+    }
 }

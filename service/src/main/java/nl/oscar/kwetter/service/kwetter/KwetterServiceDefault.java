@@ -12,6 +12,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.function.Supplier;
 
 @Stateless
 public class KwetterServiceDefault implements KwetterService {
@@ -31,9 +32,17 @@ public class KwetterServiceDefault implements KwetterService {
     @Inject
     private KwetterVerifier verifier;
 
+    private <R> Either<ServerError, R> execute(Supplier<R> fn) {
+        try {
+            return Either.right(fn.get());
+        } catch (Exception e) {
+            return Either.left(new ServerError("Error: " + e.getCause().getCause().toString()));
+        }
+    }
+
     @Override
     public Either<ServerError, Kwetter> addKwetter(long author, String text) {
-        try {
+        Supplier<Kwetter> fn = () -> {
             LocalDateTime time = timeProvider.now();
 
             verifier.verifyArguments(author, text, time);
@@ -42,19 +51,23 @@ public class KwetterServiceDefault implements KwetterService {
 
             dao.create(kwetter);
             persister.persist(kwetter);
+            return kwetter;
+        };
 
-            return Either.right(kwetter);
-        } catch (Exception e) {
-            return Either.left(new ServerError("Error: " + e.getCause().getCause().toString()));
-        }
+        return execute(fn);
     }
 
     @Override
     public Either<ServerError, Collection<Kwetter>> getKwettersForAuthor(long author) {
-        try {
-            return Either.right(dao.getKwettersForAuthor(author));
-        } catch (Exception e) {
-            return Either.left(new ServerError("Error: " + e.getCause().getCause().toString()));
-        }
+        Supplier<Collection<Kwetter>> fn = () -> dao.getKwettersForAuthor(author);
+
+        return execute(fn);
+    }
+
+    @Override
+    public Either<ServerError, Kwetter> getKwetter(long id) {
+        Supplier<Kwetter> fn = () -> dao.find(id);
+
+        return execute(fn);
     }
 }
