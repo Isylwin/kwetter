@@ -45,4 +45,12 @@ public class RestKwetterController {
 
         return ResponseUtility.getResponseFromEither(result);
     }
+
+    @GET
+    @Path("/mention/{mention_id}")
+    public Response getKwettersWithMention(@PathParam("mention_id") long mention) {
+        Either<ServerError, Collection<Kwetter>> result = service.getKwettersWithMention(mention);
+
+        return ResponseUtility.getResponseFromEither(result);
+    }
 }

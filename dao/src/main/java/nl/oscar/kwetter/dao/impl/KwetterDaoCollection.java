@@ -42,9 +42,16 @@ public class KwetterDaoCollection implements KwetterDao {
     }
 
     @Override
-    public Collection<Kwetter> getKwettersForAuthor(long author) {
+    public Collection<Kwetter> findWithAuthor(long author) {
         return findAll().stream()
                 .filter(k -> k.getAuthor() == author)
+                .collect(Collectors.toSet());
+    }
+
+    @Override
+    public Collection<Kwetter> findWithMention(long mention) {
+        return findAll().stream()
+                .filter(k -> k.getMentions().contains(mention))
                 .collect(Collectors.toSet());
     }
 }

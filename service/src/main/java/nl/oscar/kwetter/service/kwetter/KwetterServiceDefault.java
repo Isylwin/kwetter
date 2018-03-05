@@ -59,7 +59,7 @@ public class KwetterServiceDefault implements KwetterService {
 
     @Override
     public Either<ServerError, Collection<Kwetter>> getKwettersForAuthor(long author) {
-        Supplier<Collection<Kwetter>> fn = () -> dao.getKwettersForAuthor(author);
+        Supplier<Collection<Kwetter>> fn = () -> dao.findWithAuthor(author);
 
         return execute(fn);
     }
@@ -67,6 +67,13 @@ public class KwetterServiceDefault implements KwetterService {
     @Override
     public Either<ServerError, Kwetter> getKwetter(long id) {
         Supplier<Kwetter> fn = () -> dao.find(id);
+
+        return execute(fn);
+    }
+
+    @Override
+    public Either<ServerError, Collection<Kwetter>> getKwettersWithMention(long mention) {
+        Supplier<Collection<Kwetter>> fn = () -> dao.findWithMention(mention);
 
         return execute(fn);
     }

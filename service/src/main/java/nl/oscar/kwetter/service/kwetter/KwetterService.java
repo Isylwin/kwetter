@@ -13,4 +13,6 @@ public interface KwetterService {
     Either<ServerError, Collection<Kwetter>> getKwettersForAuthor(long author);
 
     Either<ServerError, Kwetter> getKwetter(long id);
+
+    Either<ServerError, Collection<Kwetter>> getKwettersWithMention(long mention);
 }

@@ -6,5 +6,7 @@ import java.util.Collection;
 
 public interface KwetterDao extends Dao<Long, Kwetter> {
 
-    Collection<Kwetter> getKwettersForAuthor(long author);
+    Collection<Kwetter> findWithAuthor(long author);
+
+    Collection<Kwetter> findWithMention(long mention);
 }
