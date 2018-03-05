@@ -1,35 +1,21 @@
 package nl.oscar.kwetter.service.kwetter;
 
-import nl.oscar.kwetter.domain.Kwetter;
-import nl.oscar.kwetter.service.kwetter.parsing.MentionParser;
-import nl.oscar.kwetter.service.kwetter.parsing.TopicParser;
+import nl.oscar.kwetter.dao.UserDao;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class KwetterBuilderDefault implements KwetterBuilder {
+@Stateless
+public class KwetterVerifierDefault implements KwetterVerifier {
 
     @Inject
-    private TopicParser topicParser;
-    @Inject
-    private MentionParser mentionParser;
+    private UserDao userDao;
 
-    @Override
-    public Kwetter buildKwetter(long author, String text, LocalDateTime time) {
-        verifyArguments(author, text, time);
-
-        return Kwetter.builder()
-                .author(author)
-                .text(text)
-                .timestamp(time)
-                .mentions(mentionParser.parse(text))
-                .topics(topicParser.parse(text))
-                .build();
-    }
-
-    private void verifyArguments(long author, String text, LocalDateTime time) {
+    public void verifyArguments(long author, String text, LocalDateTime time) {
         checkAuthorNotInvalid(author);
+        checkAuthorExists(author);
         checkTextNotNull(text);
         checkTextNotEmpty(text);
         checkTimeNotNull(time);
@@ -52,6 +38,12 @@ public class KwetterBuilderDefault implements KwetterBuilder {
     private void checkAuthorNotInvalid(long author) {
         if (author < 0L) {
             throw new IllegalArgumentException("Author must be valid.");
+        }
+    }
+
+    private void checkAuthorExists(long author) {
+        if (Objects.isNull(userDao.find(author))) {
+            throw new IllegalArgumentException("Author does not exist.");
         }
     }
 }

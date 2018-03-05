@@ -30,8 +30,8 @@ public class User {
     private HashSet<Long> following = new HashSet<>();
     @Builder.Default
     private HashSet<Long> followers = new HashSet<>();
-
-    private Collection<Kwetter> kwetters;
+    @Builder.Default
+    private Collection<Long> kwetters = new HashSet<>();
 
     public User() {
         following = new HashSet<>();
@@ -55,5 +55,13 @@ public class User {
 
     public void unfollow(long followee) {
         following.remove(followee);
+    }
+
+    public void addKwetter(long kwetter) {
+        kwetters.add(kwetter);
+    }
+
+    public void removeKwetter(long kwetter) {
+        kwetters.remove(kwetter);
     }
 }

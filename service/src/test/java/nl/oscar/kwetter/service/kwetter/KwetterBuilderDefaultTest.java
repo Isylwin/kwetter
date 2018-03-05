@@ -1,6 +1,7 @@
 package nl.oscar.kwetter.service.kwetter;
 
 import nl.oscar.kwetter.domain.Kwetter;
+import nl.oscar.kwetter.service.kwetter.builder.KwetterBuilderDefault;
 import nl.oscar.kwetter.service.kwetter.parsing.MentionParser;
 import nl.oscar.kwetter.service.kwetter.parsing.TopicParser;
 import org.junit.Before;
@@ -26,10 +27,10 @@ import static org.mockito.Mockito.when;
 public class KwetterBuilderDefaultTest {
 
     @Mock
-    TopicParser topicParser;
+    private TopicParser topicParser;
 
     @Mock
-    MentionParser mentionParser;
+    private MentionParser mentionParser;
 
     @InjectMocks
     private KwetterBuilderDefault builder = new KwetterBuilderDefault();
@@ -53,50 +54,6 @@ public class KwetterBuilderDefaultTest {
         assertEquals(result.getAuthor(), author);
         assertEquals(result.getText(), text);
         assertEquals(result.getTimestamp(), time);
-    }
-
-    @Test
-    public void buildKwetter_withInvalidAuthor_throwsException() {
-        expectedException.expect(IllegalArgumentException.class);
-
-        long author = -1L;
-        String text = "Hallo";
-        LocalDateTime time = LocalDateTime.MIN;
-
-        Kwetter result = builder.buildKwetter(author, text, time);
-    }
-
-    @Test
-    public void buildKwetter_withInvalidText_throwsException() {
-        expectedException.expect(IllegalArgumentException.class);
-
-        long author = 1L;
-        String text = "";
-        LocalDateTime time = LocalDateTime.MIN;
-
-        Kwetter result = builder.buildKwetter(author, text, time);
-    }
-
-    @Test
-    public void buildKwetter_withNullText_throwsException() {
-        expectedException.expect(NullPointerException.class);
-
-        long author = 1L;
-        String text = null;
-        LocalDateTime time = LocalDateTime.MIN;
-
-        Kwetter result = builder.buildKwetter(author, text, time);
-    }
-
-    @Test
-    public void buildKwetter_withNullTime_throwsException() {
-        expectedException.expect(NullPointerException.class);
-
-        long author = 1L;
-        String text = "Henk";
-        LocalDateTime time = null;
-
-        Kwetter result = builder.buildKwetter(author, text, time);
     }
 
     @Test

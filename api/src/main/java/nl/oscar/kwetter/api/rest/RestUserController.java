@@ -23,7 +23,6 @@ public class RestUserController {
     private UserService service;
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
     public Response getAllUsers() {
         Either<ServerError, Collection<User>> optUsers = service.getAllUsers();
 
@@ -32,7 +31,6 @@ public class RestUserController {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     public Response addUser(User user) {
         Either<ServerError, User> optUser = service.addUser(user);
 
@@ -40,7 +38,6 @@ public class RestUserController {
     }
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
     public Response getUser(@PathParam("id") long id) {
         Either<ServerError, User> optUser = service.getUser(id);
@@ -48,9 +45,8 @@ public class RestUserController {
         return ResponseUtility.getResponseFromEither(optUser);
     }
 
-    @PATCH
+    @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
     public Response editUserInfo(@PathParam("id") long id, UserInformation information) {
         Either<ServerError, User> optUser = service.updateUserInfo(id, information);
@@ -59,7 +55,6 @@ public class RestUserController {
     }
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}/followers")
     public Response getFollowers(@PathParam("id") long id) {
         Either<ServerError, Collection<User>> optUsers = service.getFollowersOfUser(id);
@@ -68,7 +63,6 @@ public class RestUserController {
     }
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}/following")
     public Response getFollowing(@PathParam("id") long id) {
         Either<ServerError, Collection<User>> optUsers = service.getFollowingOfUser(id);

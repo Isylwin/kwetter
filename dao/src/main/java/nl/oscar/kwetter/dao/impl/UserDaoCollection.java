@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public class UserDaoCollection implements UserDao {
 
     private Map<Long, User> users = new HashMap<>();
-    private static long id = 0;
+    private long id = 0;
 
     @Override
     public void create(User object) {

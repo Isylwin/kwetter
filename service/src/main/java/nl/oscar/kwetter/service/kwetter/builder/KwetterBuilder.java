@@ -1,4 +1,4 @@
-package nl.oscar.kwetter.service.kwetter;
+package nl.oscar.kwetter.service.kwetter.builder;
 
 import nl.oscar.kwetter.domain.Kwetter;
 

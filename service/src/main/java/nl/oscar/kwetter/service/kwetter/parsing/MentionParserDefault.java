@@ -3,6 +3,7 @@ package nl.oscar.kwetter.service.kwetter.parsing;
 import nl.oscar.kwetter.dao.UserDao;
 import nl.oscar.kwetter.domain.User;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,6 +13,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+@Stateless
 public class MentionParserDefault implements MentionParser {
     @Inject
     private UserDao userDao;
