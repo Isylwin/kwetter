@@ -11,6 +11,7 @@ import nl.oscar.kwetter.service.kwetter.persistence.KwetterPersister;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 @Stateless
 public class KwetterServiceDefault implements KwetterService {
@@ -43,6 +44,15 @@ public class KwetterServiceDefault implements KwetterService {
             persister.persist(kwetter);
 
             return Either.right(kwetter);
+        } catch (Exception e) {
+            return Either.left(new ServerError("Error: " + e.getCause().getCause().toString()));
+        }
+    }
+
+    @Override
+    public Either<ServerError, Collection<Kwetter>> getKwettersForAuthor(long author) {
+        try {
+            return Either.right(dao.getKwettersForAuthor(author));
         } catch (Exception e) {
             return Either.left(new ServerError("Error: " + e.getCause().getCause().toString()));
         }

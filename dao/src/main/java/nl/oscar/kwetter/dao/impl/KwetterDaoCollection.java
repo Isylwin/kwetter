@@ -7,6 +7,7 @@ import javax.ejb.Singleton;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Singleton
 public class KwetterDaoCollection implements KwetterDao {
@@ -38,5 +39,12 @@ public class KwetterDaoCollection implements KwetterDao {
     @Override
     public void remove(Kwetter object) {
         map.remove(object.getId());
+    }
+
+    @Override
+    public Collection<Kwetter> getKwettersForAuthor(long author) {
+        return findAll().stream()
+                .filter(k -> k.getAuthor() == author)
+                .collect(Collectors.toSet());
     }
 }
