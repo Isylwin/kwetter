@@ -1,0 +1,15 @@
+def WAR_NAME= 'kwetter.war'
+
+apply plugin: 'war'
+
+repositories {
+    mavenCentral()
+}
+
+war {
+    archiveName WAR_NAME
+}
+
+dependencies {
+    compile project(':api')
+}

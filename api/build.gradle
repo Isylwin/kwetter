@@ -1,15 +1,3 @@
-def WAR_NAME= project.rootProject.name + '-' + project.version +  '.war'
-
-apply plugin: 'war'
-
-repositories {
-    mavenCentral()
-}
-
-war {
-    archiveName WAR_NAME
-}
-
 dependencies {
     compile project(':domain')
     compile project(':service')
