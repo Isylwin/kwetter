@@ -1,4 +1,4 @@
-def WAR_NAME='kwetter.war'
+def WAR_NAME= project.rootProject.name + '-' + project.version +  '.war'
 
 apply plugin: 'war'
 

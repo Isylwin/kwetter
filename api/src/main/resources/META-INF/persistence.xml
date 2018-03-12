@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0"
+             xmlns="http://java.sun.com/xml/ns/persistence"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+    <persistence-unit name="pu" transaction-type="JTA">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <jta-data-source>jdbc/kwetter</jta-data-source>
+
+        <class>nl.oscar.kwetter.domain.Kwetter</class>
+        <class>nl.oscar.kwetter.domain.User</class>
+        <class>nl.oscar.kwetter.domain.Topic</class>
+        <class>nl.oscar.kwetter.domain.Credentials</class>
+        <class>nl.oscar.kwetter.domain.UserInformation</class>
+
+        <properties>
+            <!--<property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.SunOneJtaPlatform"/>-->
+            <property name="hibernate.hbm2ddl" value="update"/>
+        </properties>
+    </persistence-unit>
+</persistence>

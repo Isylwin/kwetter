@@ -6,8 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Embeddable;
-import javax.persistence.Id;
-import java.util.Collection;
 
 @Embeddable
 @Data
@@ -15,10 +13,11 @@ import java.util.Collection;
 @AllArgsConstructor
 @Builder
 public class Credentials {
-    @Id
+
     private String username;
 
     private String password;
 
-    private Collection<Role> roles;
+    /*@ElementCollection
+    private Set<Role> roles;*/
 }

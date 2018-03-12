@@ -1,15 +1,6 @@
 package nl.oscar.kwetter.dao.impl;
 
-import nl.oscar.kwetter.dao.KwetterDao;
-import nl.oscar.kwetter.domain.Kwetter;
-
-import javax.ejb.Singleton;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-@Singleton
+/*@Singleton
 public class KwetterDaoCollection implements KwetterDao {
 
     private static long id;
@@ -61,4 +52,4 @@ public class KwetterDaoCollection implements KwetterDao {
                 .filter(k -> k.getTopics().contains(topic))
                 .collect(Collectors.toSet());
     }
-}
+}*/

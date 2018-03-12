@@ -1,7 +1,8 @@
 package nl.oscar.kwetter.domain;
 
-import javax.persistence.Entity;
+import javax.persistence.Embeddable;
 
-@Entity
+@Embeddable
 public enum Role {
+    ADMIN, USER
 }

@@ -6,32 +6,33 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import java.util.Collection;
+import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
+@Table(name = "KwetterUser")
 @Builder
 @AllArgsConstructor
 @EqualsAndHashCode(exclude = {"information", "credentials", "following", "followers", "kwetters"})
 public class User {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Embedded
     private UserInformation information;
     @Embedded
     private Credentials credentials;
     @Builder.Default
-    private HashSet<Long> following = new HashSet<>();
+    @ElementCollection
+    private Set<Long> following = new HashSet<>();
     @Builder.Default
-    private HashSet<Long> followers = new HashSet<>();
+    @ElementCollection
+    private Set<Long> followers = new HashSet<>();
     @Builder.Default
-    private Collection<Long> kwetters = new HashSet<>();
+    @ElementCollection
+    private Set<Long> kwetters = new HashSet<>();
 
     public User() {
         following = new HashSet<>();

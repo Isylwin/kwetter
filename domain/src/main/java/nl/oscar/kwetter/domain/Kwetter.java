@@ -2,20 +2,26 @@ package nl.oscar.kwetter.domain;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Collection;
+import java.util.Set;
 
 @Entity
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@NamedQueries({
+        @NamedQuery(name = "Kwetter.findWithAuthor",
+                query = "SELECT a FROM Kwetter AS a WHERE a.author = :author"),
+        @NamedQuery(name = "Kwetter.findWithMention",
+                query = "SELECT a FROM Kwetter AS a WHERE :mention in (a.mentions)"),
+        @NamedQuery(name = "Kwetter.findWithTopic",
+                query = "SELECT a FROM Kwetter AS a WHERE :topic in (a.topics)")
+})
 public class Kwetter {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private long author;
@@ -24,9 +30,12 @@ public class Kwetter {
 
     private String text;
     @Singular
-    private Collection<Long> mentions;
+    @ElementCollection
+    private Set<Long> mentions;
     @Singular
-    private Collection<String> topics;
+    @ElementCollection
+    private Set<String> topics;
     @Singular
-    private Collection<Long> likes;
+    @ElementCollection
+    private Set<Long> likes;
 }
