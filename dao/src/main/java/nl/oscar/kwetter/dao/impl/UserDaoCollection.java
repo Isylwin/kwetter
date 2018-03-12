@@ -1,6 +1,7 @@
 package nl.oscar.kwetter.dao.impl;
 
 import nl.oscar.kwetter.dao.UserDao;
+import nl.oscar.kwetter.dao.qualifier.InMemCollection;
 import nl.oscar.kwetter.domain.User;
 
 import javax.ejb.Singleton;
@@ -10,6 +11,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Singleton
+@InMemCollection
 public class UserDaoCollection implements UserDao {
 
     private Map<Long, User> users = new HashMap<>();

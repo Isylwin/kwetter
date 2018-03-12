@@ -7,15 +7,13 @@ import nl.oscar.kwetter.service.user.UserService;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
-import javax.ejb.Startup;
 import javax.inject.Inject;
 
 @Singleton
-@Startup
 public class DatabaseFiller {
 
     @Inject
-    UserService service;
+    private UserService service;
 
     @PostConstruct
     public void init() {

@@ -15,13 +15,14 @@ import java.util.Set;
         @NamedQuery(name = "Kwetter.findWithAuthor",
                 query = "SELECT a FROM Kwetter AS a WHERE a.author = :author"),
         @NamedQuery(name = "Kwetter.findWithMention",
-                query = "SELECT a FROM Kwetter AS a WHERE :mention in (a.mentions)"),
+                query = "SELECT a FROM Kwetter AS a LEFT JOIN a.mentions m WHERE :mention IN m"),
         @NamedQuery(name = "Kwetter.findWithTopic",
-                query = "SELECT a FROM Kwetter AS a WHERE :topic in (a.topics)")
+                query = "SELECT a FROM Kwetter AS a LEFT JOIN a.topics t WHERE :topic in t")
 })
 public class Kwetter {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @TableGenerator(name = "TABLE_GEN", table = "T_GENERATOR", pkColumnName = "GEN_KEY", pkColumnValue = "TEST", valueColumnName = "GEN_VALUE", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
     private long id;
 
     private long author;
@@ -30,12 +31,13 @@ public class Kwetter {
 
     private String text;
     @Singular
-    @ElementCollection
+    @JoinTable(name = "Kwetter_mentions")
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<Long> mentions;
     @Singular
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> topics;
     @Singular
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<Long> likes;
 }

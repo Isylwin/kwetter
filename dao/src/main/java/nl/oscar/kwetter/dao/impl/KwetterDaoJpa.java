@@ -1,6 +1,17 @@
 package nl.oscar.kwetter.dao.impl;
 
-/*@Default
+import nl.oscar.kwetter.dao.KwetterDao;
+import nl.oscar.kwetter.domain.Kwetter;
+
+import javax.ejb.Stateless;
+import javax.enterprise.inject.Default;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaQuery;
+import java.util.Collection;
+
+@Default
 @Stateless
 public class KwetterDaoJpa implements KwetterDao {
 
@@ -57,4 +68,4 @@ public class KwetterDaoJpa implements KwetterDao {
     public void remove(Kwetter object) {
         em.remove(object);
     }
-}*/
+}

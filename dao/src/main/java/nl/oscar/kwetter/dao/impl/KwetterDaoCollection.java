@@ -1,6 +1,7 @@
 package nl.oscar.kwetter.dao.impl;
 
 import nl.oscar.kwetter.dao.KwetterDao;
+import nl.oscar.kwetter.dao.qualifier.InMemCollection;
 import nl.oscar.kwetter.domain.Kwetter;
 
 import javax.ejb.Singleton;
@@ -10,6 +11,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Singleton
+@InMemCollection
 public class KwetterDaoCollection implements KwetterDao {
 
     private static long id;

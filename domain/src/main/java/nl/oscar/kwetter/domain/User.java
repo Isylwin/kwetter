@@ -15,29 +15,30 @@ import java.util.Set;
 @Table(name = "KwetterUser")
 @Builder
 @AllArgsConstructor
-@EqualsAndHashCode(exclude = {"information", "credentials", "following", "followers", "kwetters"})
+@EqualsAndHashCode(exclude = {"information", "credentials", "following", "followers"})
+@NamedQueries({
+        @NamedQuery(name = "User.findWithName", query = "SELECT a FROM User AS a WHERE a.information.name = :name"),
+        @NamedQuery(name = "User.findWithUsernames", query = "SELECT a FROM User AS a WHERE a.credentials.username IN :names"),
+        @NamedQuery(name = "User.findWithIds", query = "SELECT a FROM User AS a WHERE a.id IN :ids")
+})
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private long id;
     @Embedded
     private UserInformation information;
     @Embedded
     private Credentials credentials;
     @Builder.Default
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<Long> following = new HashSet<>();
     @Builder.Default
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<Long> followers = new HashSet<>();
-    @Builder.Default
-    @ElementCollection
-    private Set<Long> kwetters = new HashSet<>();
 
     public User() {
         following = new HashSet<>();
         followers = new HashSet<>();
-        kwetters = new HashSet<>();
         information = new UserInformation();
         credentials = new Credentials();
     }
@@ -56,13 +57,5 @@ public class User {
 
     public void unfollow(long followee) {
         following.remove(followee);
-    }
-
-    public void addKwetter(long kwetter) {
-        kwetters.add(kwetter);
-    }
-
-    public void removeKwetter(long kwetter) {
-        kwetters.remove(kwetter);
     }
 }
