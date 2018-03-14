@@ -10,6 +10,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.stream.Collectors;
 
 @Stateless
@@ -26,10 +27,15 @@ public class KwetterBuilderDefault implements KwetterBuilder {
     public Kwetter buildKwetter(long author, String text, LocalDateTime time) {
 
         Collection<String> mentionsParse = mentionParser.parse(text);
-        Collection<Long> mentions = userDao.findUsersByUsername(mentionsParse)
-                .stream()
-                .map(User::getId)
-                .collect(Collectors.toSet());
+
+        Collection<Long> mentions = new HashSet<>();
+
+        if (!mentionsParse.isEmpty()) {
+            mentions = userDao.findUsersByUsername(mentionsParse)
+                    .stream()
+                    .map(User::getId)
+                    .collect(Collectors.toSet());
+        }
 
         Collection<String> topicParse = topicParser.parse(text);
 
