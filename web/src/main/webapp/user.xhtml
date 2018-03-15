@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js" type=""/>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" type=""/>
+    <title>Users</title>
+</h:head>
+<h:body class="container">
+    <h:panelGroup>
+        <h:form class="page-header">
+            <h:outputLabel value="Username filter: "/>
+            <h:inputText class="form-control" value="#{userBean.filter}" id="filter">
+                <f:ajax event="keyup" execute="filter" render="users"/>
+            </h:inputText>
+        </h:form>
+    </h:panelGroup>
+
+    <h:panelGroup id="users">
+        <h:form class="well">
+            <h:dataTable class="table" value="#{userBean.users}" var="user">
+                <h:column>
+                    <f:facet name="header">Name</f:facet>
+                    <h:outputLabel value="#{user.information.name}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Username</f:facet>
+                    <h:outputLabel value="#{user.credentials.username}"/>
+                </h:column>
+                <h:column>
+                    <h:commandButton class="btn btn-danger" value="Remove" action="#{userBean.removeUser(user)}">
+                        <f:ajax event="action" render="studenten"/>
+                    </h:commandButton>
+                </h:column>
+                <h:column>
+                    <h:outputLink class="btn btn-primary" value="userdetail.xhtml">Details
+                        <f:param name="id" value="#{user.id}"/>
+                    </h:outputLink>
+                </h:column>
+
+            </h:dataTable>
+        </h:form>
+    </h:panelGroup>
+</h:body>
+</html>

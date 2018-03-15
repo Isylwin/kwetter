@@ -149,4 +149,9 @@ public class UserServiceDefault implements UserService {
 
         return followerOpt;
     }
+
+    @Override
+    public void editUser(User user) {
+        dao.edit(user);
+    }
 }
