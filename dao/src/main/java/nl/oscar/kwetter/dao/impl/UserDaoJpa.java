@@ -67,5 +67,6 @@ public class UserDaoJpa implements UserDao {
     @Override
     public void remove(User object) {
         em.remove(object);
+        em.flush();
     }
 }

@@ -26,4 +26,6 @@ public interface UserService {
     Either<ServerError, User> followUser(long follower, long followee);
 
     void editUser(User user);
+
+    void removeUser(long id);
 }

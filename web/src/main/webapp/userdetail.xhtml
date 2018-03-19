@@ -17,30 +17,60 @@
     <f:event type="preRenderComponent" listener="#{userDetailBean.loadUser()}"/>
 </f:metadata>
 
+<h1>User Details</h1>
+
 <h:body class="container">
-    <h:panelGrid class="well table table-bordered table-hover" columns="2">
-        <h:outputLabel value="ID:"/>
-        <h:outputLabel value="#{userDetailBean.user.id}"/>
+    <h:form id="userDetails">
+        <h:panelGrid class="well table table-bordered table-hover" columns="2">
+            <h:outputLabel value="ID:"/>
+            <h:outputLabel value="#{userDetailBean.user.id}"/>
 
-        <h:outputLabel value="Name:"/>
-        <h:inputText value="#{userDetailBean.user.information.name}"/>
-        <h:outputLabel value="Bio:"/>
-        <h:inputText value="#{userDetailBean.user.information.bio}"/>
-        <h:outputLabel value="Location:"/>
-        <h:inputText value="#{userDetailBean.user.information.location}"/>
-        <h:outputLabel value="Website:"/>
-        <h:inputText value="#{userDetailBean.user.information.website}"/>
+            <h:outputLabel value="Name:"/>
+            <h:inputText value="#{userDetailBean.user.information.name}"/>
+            <h:outputLabel value="Bio:"/>
+            <h:inputText value="#{userDetailBean.user.information.bio}"/>
+            <h:outputLabel value="Location:"/>
+            <h:inputText value="#{userDetailBean.user.information.location}"/>
+            <h:outputLabel value="Website:"/>
+            <h:inputText value="#{userDetailBean.user.information.website}"/>
 
-        <h:outputLabel value="Username:"/>
-        <h:inputText value="#{userDetailBean.user.credentials.username}"/>
-        <h:outputLabel value="Password:"/>
-        <h:inputText value="#{userDetailBean.user.credentials.password}"/>
-    </h:panelGrid>
+            <h:outputLabel value="Username:"/>
+            <h:inputText value="#{userDetailBean.user.credentials.username}"/>
+            <h:outputLabel value="Password:"/>
+            <h:inputText value="#{userDetailBean.user.credentials.password}"/>
 
-    <h:form>
+            <h:outputLabel value="Role:"/>
+            <h:selectOneMenu value="#{userDetailBean.user.userRole}">
+                <f:selectItems value="#{userDetailBean.roleNames}"/>
+            </h:selectOneMenu>
+
+        </h:panelGrid>
+
         <h:commandLink class="btn btn-primary" value="Back" action="#{userDetailBean.selectUser()}"/>
         <h:commandLink class="btn btn-success" value="Save" action="#{userDetailBean.saveUser()}"/>
-    </h:form>
 
+        <h2>Kwetters</h2>
+
+        <h:dataTable id="kwetters" class="table" value="#{userDetailBean.kwetters}" var="kwetter">
+            <h:column>
+                <f:facet name="header">ID</f:facet>
+                <h:outputLabel value="#{kwetter.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Time</f:facet>
+                <h:outputLabel value="#{kwetter.timestamp}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Text</f:facet>
+                <h:outputLabel value="#{kwetter.text}"/>
+            </h:column>
+            <h:column>
+                <h:commandButton class="btn btn-danger" value="Remove"
+                                 action="#{userDetailBean.removeKwetter(kwetter)}">
+                    <f:ajax event="action" render="userDetails"/>
+                </h:commandButton>
+            </h:column>
+        </h:dataTable>
+    </h:form>
 </h:body>
 </html>

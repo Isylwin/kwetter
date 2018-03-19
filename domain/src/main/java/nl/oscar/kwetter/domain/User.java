@@ -36,6 +36,8 @@ public class User {
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<Long> followers = new HashSet<>();
 
+    private String userRole;
+
     public User() {
         following = new HashSet<>();
         followers = new HashSet<>();

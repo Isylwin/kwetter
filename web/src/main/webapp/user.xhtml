@@ -3,7 +3,8 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+>
 <h:head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -35,7 +36,7 @@
                 </h:column>
                 <h:column>
                     <h:commandButton class="btn btn-danger" value="Remove" action="#{userBean.removeUser(user)}">
-                        <f:ajax event="action" render="studenten"/>
+                        <f:ajax event="action" render="users"/>
                     </h:commandButton>
                 </h:column>
                 <h:column>

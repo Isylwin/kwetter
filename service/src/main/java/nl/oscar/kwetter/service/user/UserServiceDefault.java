@@ -154,4 +154,10 @@ public class UserServiceDefault implements UserService {
     public void editUser(User user) {
         dao.edit(user);
     }
+
+    @Override
+    public void removeUser(long id) {
+        User user = dao.find(id);
+        dao.remove(user);
+    }
 }

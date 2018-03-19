@@ -43,6 +43,6 @@ public class UserBean implements Serializable {
     }
 
     public void removeUser(User user) {
-
+        service.removeUser(user.getId());
     }
 }

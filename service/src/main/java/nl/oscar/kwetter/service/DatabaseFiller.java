@@ -7,9 +7,11 @@ import nl.oscar.kwetter.service.user.UserService;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
+import javax.ejb.Startup;
 import javax.inject.Inject;
 
 @Singleton
+@Startup
 public class DatabaseFiller {
 
     @Inject
@@ -20,6 +22,7 @@ public class DatabaseFiller {
         User user1 = User.builder()
                 .credentials(Credentials.builder().username("Henk").build())
                 .information(UserInformation.builder().name("Henk").build())
+                .userRole("USER")
                 .build();
         User user2 = User.builder()
                 .credentials(Credentials.builder().username("Piet").build())

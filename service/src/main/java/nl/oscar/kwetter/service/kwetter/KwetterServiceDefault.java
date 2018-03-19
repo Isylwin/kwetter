@@ -84,4 +84,16 @@ public class KwetterServiceDefault implements KwetterService {
 
         return execute(fn);
     }
+
+    @Override
+    public Either<ServerError, Void> removeKwetter(long id) {
+        Supplier<Void> fn = () -> {
+            Kwetter kwetter = dao.find(id);
+            dao.remove(kwetter);
+
+            return null;
+        };
+
+        return execute(fn);
+    }
 }
