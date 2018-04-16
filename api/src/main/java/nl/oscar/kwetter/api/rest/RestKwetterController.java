@@ -23,7 +23,7 @@ public class RestKwetterController {
     private KwetterService service;
 
     @POST
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Consumes({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})
     @JwtTokenNeeded
     @Path("/author/{author}")
     public Response addKwetter(@PathParam("author") long author, String text) {

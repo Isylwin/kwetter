@@ -16,7 +16,7 @@ public class UserInformation {
 
     private String name;
 
-    private byte[] photo;
+    private String photo;
 
     private String bio;
 
