@@ -19,4 +19,6 @@ public interface KwetterService {
     Either<ServerError, Collection<Kwetter>> getKwettersWithTopic(String topic);
 
     Either<ServerError, Void> removeKwetter(long id);
+
+    Either<ServerError, Collection<Kwetter>> getAllKwetters();
 }

@@ -2,6 +2,7 @@ package nl.oscar.kwetter.dao.impl;
 
 import nl.oscar.kwetter.dao.UserDao;
 import nl.oscar.kwetter.dao.qualifier.InMemCollection;
+import nl.oscar.kwetter.domain.Credentials;
 import nl.oscar.kwetter.domain.User;
 
 import javax.ejb.Singleton;
@@ -44,6 +45,11 @@ public class UserDaoCollection implements UserDao {
                 .stream()
                 .filter(x -> ids.contains(x.getId()))
                 .collect(Collectors.toSet());
+    }
+
+    @Override
+    public User findUserByCredentials(Credentials credentials) {
+        return null;
     }
 
     @Override

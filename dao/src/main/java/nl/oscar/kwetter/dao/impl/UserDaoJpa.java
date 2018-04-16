@@ -1,6 +1,7 @@
 package nl.oscar.kwetter.dao.impl;
 
 import nl.oscar.kwetter.dao.UserDao;
+import nl.oscar.kwetter.domain.Credentials;
 import nl.oscar.kwetter.domain.User;
 
 import javax.ejb.Stateless;
@@ -40,6 +41,15 @@ public class UserDaoJpa implements UserDao {
         tq.setParameter("ids", ids);
 
         return tq.getResultList();
+    }
+
+    @Override
+    public User findUserByCredentials(Credentials credentials) {
+        TypedQuery<User> tq = em.createNamedQuery("User.findWithCredentials", User.class);
+        tq.setParameter("username", credentials.getUsername());
+        tq.setParameter("password", credentials.getPassword());
+
+        return tq.getSingleResult();
     }
 
     @Override

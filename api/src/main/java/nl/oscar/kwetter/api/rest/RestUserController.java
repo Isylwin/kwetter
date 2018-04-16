@@ -1,6 +1,7 @@
 package nl.oscar.kwetter.api.rest;
 
 import com.jnape.palatable.lambda.adt.Either;
+import nl.oscar.kwetter.api.JwtTokenNeeded;
 import nl.oscar.kwetter.api.ResponseUtility;
 import nl.oscar.kwetter.domain.User;
 import nl.oscar.kwetter.domain.UserInformation;
@@ -22,7 +23,9 @@ public class RestUserController {
     @Inject
     private UserService service;
 
+
     @GET
+    @JwtTokenNeeded
     public Response getAllUsers() {
         Either<ServerError, Collection<User>> optUsers = service.getAllUsers();
 
@@ -31,6 +34,7 @@ public class RestUserController {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
+    @JwtTokenNeeded
     public Response addUser(User user) {
         Either<ServerError, User> optUser = service.addUser(user);
 
@@ -39,6 +43,7 @@ public class RestUserController {
 
     @GET
     @Path("/{id}")
+    @JwtTokenNeeded
     public Response getUser(@PathParam("id") long id) {
         Either<ServerError, User> optUser = service.getUser(id);
 
@@ -47,6 +52,7 @@ public class RestUserController {
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
+    @JwtTokenNeeded
     @Path("/{id}")
     public Response editUserInfo(@PathParam("id") long id, UserInformation information) {
         Either<ServerError, User> optUser = service.updateUserInfo(id, information);
@@ -72,6 +78,7 @@ public class RestUserController {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
+    @JwtTokenNeeded
     @Path("/{id}/followers")
     public Response followUser(@PathParam("id") Long follower, @QueryParam("followee") Long followee) {
         Either<ServerError, User> result = service.followUser(follower, followee);

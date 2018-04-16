@@ -96,4 +96,12 @@ public class KwetterServiceDefault implements KwetterService {
 
         return execute(fn);
     }
+
+    @Override
+    public Either<ServerError, Collection<Kwetter>> getAllKwetters() {
+        Supplier<Collection<Kwetter>> fn = () ->
+                dao.findAll();
+
+        return execute(fn);
+    }
 }

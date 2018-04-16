@@ -19,7 +19,8 @@ import java.util.Set;
 @NamedQueries({
         @NamedQuery(name = "User.findWithName", query = "SELECT a FROM User AS a WHERE a.information.name = :name"),
         @NamedQuery(name = "User.findWithUsernames", query = "SELECT a FROM User AS a WHERE a.credentials.username IN :names"),
-        @NamedQuery(name = "User.findWithIds", query = "SELECT a FROM User AS a WHERE a.id IN :ids")
+        @NamedQuery(name = "User.findWithIds", query = "SELECT a FROM User AS a WHERE a.id IN :ids"),
+        @NamedQuery(name = "User.findWithCredentials", query = "SELECT a FROM User AS a WHERE a.credentials.username = :username AND a.credentials.password = :password")
 })
 public class User {
     @Id
@@ -37,6 +38,8 @@ public class User {
     private Set<Long> followers = new HashSet<>();
 
     private String userRole;
+
+    private String token;
 
     public User() {
         following = new HashSet<>();

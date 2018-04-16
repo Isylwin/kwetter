@@ -1,6 +1,7 @@
 package nl.oscar.kwetter.api.rest;
 
 import com.jnape.palatable.lambda.adt.Either;
+import nl.oscar.kwetter.api.JwtTokenNeeded;
 import nl.oscar.kwetter.api.ResponseUtility;
 import nl.oscar.kwetter.domain.Kwetter;
 import nl.oscar.kwetter.service.error.ServerError;
@@ -23,9 +24,18 @@ public class RestKwetterController {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
+    @JwtTokenNeeded
     @Path("/author/{author}")
     public Response addKwetter(@PathParam("author") long author, String text) {
         Either<ServerError, Kwetter> result = service.addKwetter(author, text);
+
+        return ResponseUtility.getResponseFromEither(result);
+    }
+
+    @GET
+    @Path("/")
+    public Response getAllKwetters() {
+        Either<ServerError, Collection<Kwetter>> result = service.getAllKwetters();
 
         return ResponseUtility.getResponseFromEither(result);
     }
