@@ -12,6 +12,8 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Supplier;
 
 @Stateless
@@ -32,6 +34,8 @@ public class KwetterServiceDefault implements KwetterService {
     @Inject
     private KwetterVerifier verifier;
 
+    private Set<KwetterListener> listeners = new HashSet<>();
+
     private <R> Either<ServerError, R> execute(Supplier<R> fn) {
         try {
             return Either.right(fn.get());
@@ -51,6 +55,7 @@ public class KwetterServiceDefault implements KwetterService {
 
             dao.create(kwetter);
             persister.persist(kwetter);
+            listeners.forEach(l -> l.onKwetter(kwetter));
             return kwetter;
         };
 
@@ -103,5 +108,15 @@ public class KwetterServiceDefault implements KwetterService {
                 dao.findAll();
 
         return execute(fn);
+    }
+
+    @Override
+    public void addListener(KwetterListener listener) {
+        listeners.add(listener);
+    }
+
+    @Override
+    public void removeListener(KwetterListener listener) {
+        listeners.remove(listener);
     }
 }

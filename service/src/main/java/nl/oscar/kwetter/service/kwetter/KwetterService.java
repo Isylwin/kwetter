@@ -21,4 +21,8 @@ public interface KwetterService {
     Either<ServerError, Void> removeKwetter(long id);
 
     Either<ServerError, Collection<Kwetter>> getAllKwetters();
+
+    void addListener(KwetterListener listener);
+
+    void removeListener(KwetterListener listener);
 }
