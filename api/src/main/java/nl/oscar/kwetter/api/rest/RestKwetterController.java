@@ -10,8 +10,10 @@ import nl.oscar.kwetter.service.kwetter.KwetterService;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import java.util.Collection;
 
 @Stateless
@@ -42,8 +44,14 @@ public class RestKwetterController {
 
     @GET
     @Path("/author/{author}")
-    public Response getKwettersForAuthor(@PathParam("author") long author) {
+    public Response getKwettersForAuthor(@PathParam("author") long author, @Context UriInfo uriInfo) {
         Either<ServerError, Collection<Kwetter>> result = service.getKwettersForAuthor(author);
+
+        result.peek(u -> u.stream().forEach(n -> n.addLink(uriInfo.getBaseUriBuilder()
+                .path(RestUserController.class)
+                .path(Long.toString(author))
+                .build()
+                .toString(), "author")));
 
         return ResponseUtility.getResponseFromEither(result);
     }

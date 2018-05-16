@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -40,4 +41,13 @@ public class Kwetter {
     @Singular
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<Long> likes;
+    @Transient
+    private Set<Link> links = new HashSet<>();
+
+    public void addLink(String url, String rel) {
+        Link link = new Link();
+        link.setLink(url);
+        link.setRel(rel);
+        links.add(link);
+    }
 }

@@ -40,12 +40,15 @@ public class User {
     private String userRole;
 
     private String token;
+    @Transient
+    private Set<Link> links;
 
     public User() {
         following = new HashSet<>();
         followers = new HashSet<>();
         information = new UserInformation();
         credentials = new Credentials();
+        links = new HashSet<>();
     }
 
     public void beFollowed(long follower) {
@@ -62,5 +65,12 @@ public class User {
 
     public void unfollow(long followee) {
         following.remove(followee);
+    }
+
+    public void addLink(String url, String rel) {
+        Link link = new Link();
+        link.setLink(url);
+        link.setRel(rel);
+        links.add(link);
     }
 }

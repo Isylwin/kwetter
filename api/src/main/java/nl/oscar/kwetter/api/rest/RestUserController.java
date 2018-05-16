@@ -11,8 +11,10 @@ import nl.oscar.kwetter.service.user.UserService;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import java.util.Collection;
 
 @Stateless
@@ -44,8 +46,14 @@ public class RestUserController {
     @GET
     @Path("/{id}")
     @JwtTokenNeeded
-    public Response getUser(@PathParam("id") long id) {
+    public Response getUser(@PathParam("id") long id, @Context UriInfo uriInfo) {
         Either<ServerError, User> optUser = service.getUser(id);
+
+        optUser.peek(u -> u.addLink(uriInfo.getBaseUriBuilder()
+                .path(RestKwetterController.class)
+                .path("author")
+                .path(Long.toString(u.getId()))
+                .build().toString(), "Kwetters"));
 
         return ResponseUtility.getResponseFromEither(optUser);
     }
