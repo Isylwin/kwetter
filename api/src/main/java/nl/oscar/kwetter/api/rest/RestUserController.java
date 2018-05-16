@@ -28,8 +28,26 @@ public class RestUserController {
 
     @GET
     @JwtTokenNeeded
-    public Response getAllUsers() {
+    public Response getAllUsers(@Context UriInfo uriInfo) {
         Either<ServerError, Collection<User>> optUsers = service.getAllUsers();
+
+        optUsers.peek(u -> u.forEach(n -> n.addLink(uriInfo.getBaseUriBuilder()
+                .path(RestKwetterController.class)
+                .path("author")
+                .path(Long.toString(n.getId()))
+                .build().toString(), "Kwetters")));
+
+        optUsers.peek(u -> u.forEach(n -> n.addLink(uriInfo.getBaseUriBuilder()
+                .path(RestUserController.class)
+                .path(Long.toString(n.getId()))
+                .path("followers")
+                .build().toString(), "followers")));
+
+        optUsers.peek(u -> u.forEach(n -> n.addLink(uriInfo.getBaseUriBuilder()
+                .path(RestUserController.class)
+                .path(Long.toString(n.getId()))
+                .path("following")
+                .build().toString(), "following")));
 
         return ResponseUtility.getResponseFromEither(optUsers);
     }
@@ -55,6 +73,18 @@ public class RestUserController {
                 .path(Long.toString(u.getId()))
                 .build().toString(), "Kwetters"));
 
+        optUser.peek(u -> u.addLink(uriInfo.getBaseUriBuilder()
+                .path(RestUserController.class)
+                .path(Long.toString(u.getId()))
+                .path("followers")
+                .build().toString(), "followers"));
+
+        optUser.peek(u -> u.addLink(uriInfo.getBaseUriBuilder()
+                .path(RestUserController.class)
+                .path(Long.toString(u.getId()))
+                .path("following")
+                .build().toString(), "following"));
+
         return ResponseUtility.getResponseFromEither(optUser);
     }
 
@@ -70,16 +100,53 @@ public class RestUserController {
 
     @GET
     @Path("/{id}/followers")
-    public Response getFollowers(@PathParam("id") long id) {
+    public Response getFollowers(@PathParam("id") long id, @Context UriInfo uriInfo) {
         Either<ServerError, Collection<User>> optUsers = service.getFollowersOfUser(id);
+
+        optUsers.peek(u -> u.forEach(n -> n.addLink(uriInfo.getBaseUriBuilder()
+                .path(RestKwetterController.class)
+                .path("author")
+                .path(Long.toString(n.getId()))
+                .build().toString(), "Kwetters")));
+
+        optUsers.peek(u -> u.forEach(n -> n.addLink(uriInfo.getBaseUriBuilder()
+                .path(RestUserController.class)
+                .path(Long.toString(n.getId()))
+                .path("followers")
+                .build().toString(), "followers")));
+
+        optUsers.peek(u -> u.forEach(n -> n.addLink(uriInfo.getBaseUriBuilder()
+                .path(RestUserController.class)
+                .path(Long.toString(n.getId()))
+                .path("following")
+                .build().toString(), "following")));
+
 
         return ResponseUtility.getResponseFromEither(optUsers);
     }
 
     @GET
     @Path("/{id}/following")
-    public Response getFollowing(@PathParam("id") long id) {
+    public Response getFollowing(@PathParam("id") long id, @Context UriInfo uriInfo) {
         Either<ServerError, Collection<User>> optUsers = service.getFollowingOfUser(id);
+
+        optUsers.peek(u -> u.forEach(n -> n.addLink(uriInfo.getBaseUriBuilder()
+                .path(RestKwetterController.class)
+                .path("author")
+                .path(Long.toString(n.getId()))
+                .build().toString(), "Kwetters")));
+
+        optUsers.peek(u -> u.forEach(n -> n.addLink(uriInfo.getBaseUriBuilder()
+                .path(RestUserController.class)
+                .path(Long.toString(n.getId()))
+                .path("followers")
+                .build().toString(), "followers")));
+
+        optUsers.peek(u -> u.forEach(n -> n.addLink(uriInfo.getBaseUriBuilder()
+                .path(RestUserController.class)
+                .path(Long.toString(n.getId()))
+                .path("following")
+                .build().toString(), "following")));
 
         return ResponseUtility.getResponseFromEither(optUsers);
     }

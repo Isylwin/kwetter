@@ -47,9 +47,9 @@ public class RestKwetterController {
     public Response getKwettersForAuthor(@PathParam("author") long author, @Context UriInfo uriInfo) {
         Either<ServerError, Collection<Kwetter>> result = service.getKwettersForAuthor(author);
 
-        result.peek(u -> u.stream().forEach(n -> n.addLink(uriInfo.getBaseUriBuilder()
+        result.peek(u -> u.forEach(n -> n.addLink(uriInfo.getBaseUriBuilder()
                 .path(RestUserController.class)
-                .path(Long.toString(author))
+                .path(Long.toString(n.getAuthor()))
                 .build()
                 .toString(), "author")));
 
@@ -58,24 +58,42 @@ public class RestKwetterController {
 
     @GET
     @Path("/{id}")
-    public Response getKwetter(@PathParam("id") long id) {
+    public Response getKwetter(@PathParam("id") long id, @Context UriInfo uriInfo) {
         Either<ServerError, Kwetter> result = service.getKwetter(id);
+
+        result.peek(u -> u.addLink(uriInfo.getBaseUriBuilder()
+                .path(RestUserController.class)
+                .path(Long.toString(u.getAuthor()))
+                .build()
+                .toString(), "author"));
 
         return ResponseUtility.getResponseFromEither(result);
     }
 
     @GET
     @Path("/mention/{mention_id}")
-    public Response getKwettersWithMention(@PathParam("mention_id") long mention) {
+    public Response getKwettersWithMention(@PathParam("mention_id") long mention, @Context UriInfo uriInfo) {
         Either<ServerError, Collection<Kwetter>> result = service.getKwettersWithMention(mention);
+
+        result.peek(u -> u.forEach(n -> n.addLink(uriInfo.getBaseUriBuilder()
+                .path(RestUserController.class)
+                .path(Long.toString(n.getAuthor()))
+                .build()
+                .toString(), "author")));
 
         return ResponseUtility.getResponseFromEither(result);
     }
 
     @GET
     @Path("/topic/{topic_id : .+}")
-    public Response getKwettersWithTopic(@PathParam("topic_id") String topic) {
+    public Response getKwettersWithTopic(@PathParam("topic_id") String topic, @Context UriInfo uriInfo) {
         Either<ServerError, Collection<Kwetter>> result = service.getKwettersWithTopic(topic);
+
+        result.peek(u -> u.forEach(n -> n.addLink(uriInfo.getBaseUriBuilder()
+                .path(RestUserController.class)
+                .path(Long.toString(n.getAuthor()))
+                .build()
+                .toString(), "author")));
 
         return ResponseUtility.getResponseFromEither(result);
     }
